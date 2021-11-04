@@ -1,61 +1,57 @@
-import React, { Component } from 'react'
-
+import { getByTitle } from '@testing-library/dom'
+import React from 'react'
+import Character from './component/Character'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Button from "./components/Button"
-import List from './components/List'
-import Add from './components/Add'
-import Pay from './components/Pay'
+import './App.css'
 
-class App extends Component {
+class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      activeTab: "add",
-      items: []
+      characters: [],
+      favorites:[]
+
     }
-    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleFavoriteClick = this.handleFavoriteClick.bind(this)
   }
 
-  handleButtonClick(string){
-    console.log(string)
+  handleFavoriteClick(character){
+    this.setState({favorites:[character,...this.state.favorites]})
   }
 
-  addItem(name, price){
-    const item = {
-      name,
-      price
-    }
-    this.setState({items:[item,...this.state.items]})
-  }
+  componentDidMount(){
+    fetch("https://thronesapi.com/api/v2/Characters")
+    .then(response => response.json())  
+    .then(result => {
+      this.setState({characters: result})
+  
+    }) 
+  } 
+	render() {
+    const {character, fullName} = this.props
+    console.log(this.state)
+		return(
+      <div className="container">
+			<h1>Game of thrones</h1>
 
+      <div className="row">
+        {this.state.characters.map((character, index) => (
 
-  render() {
-    return (
-      <div className="container my-5">
-        <h1 className="mb-5">Bakery</h1>
-        <Button
-        children="Add" 
-        handleButtonClick={this.handleButtonClick}
-        isSelected={this.state.activeTab === "Add"}
-        />    
-        <Button
-        children="List" 
-        handleButtonClick={this.handleButtonClick}
-        isSelected={this.state.activeTab === "List"}
-        />
-        <Button
-        children="Pay" 
-        handleButtonClick={this.handleButtonClick}
-        isSelected={this.state.activeTab === "Pay"}
-        />   
-         {this.state.activeTab === "Add" && <Add addItem={this.addItem}/>}
-        {this.state.activeTab === "List" && <List />}
-        {this.state.activeTab === "Pay" && <Pay />}  
+       <Character 
+       name={character.fullName} 
+       title={character.title} 
+       image={character.imageUrl}
+       favoritesClick={this.handleFavoriteClick}
+       character={character}
+
+       />
+      ))}
+      
       </div>
-
-    )
-  }
+      
+      </div>
+		)
+	}
 }
 
-
-export default App;
+export default App
