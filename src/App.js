@@ -3,6 +3,9 @@ import React from 'react'
 import Character from './component/Character'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
+import Favorites from './component/Favorites'
+import Continents from './component/Continents'
+import Personnages from './component/Personnages'
 
 class App extends React.Component {
   constructor(){
@@ -33,7 +36,9 @@ class App extends React.Component {
 		return(
       <div className="container">
 			<h1>Game of thrones</h1>
-
+      <Favorites/>
+      <Personnages/>
+      <Continents/>
       <div className="row">
         {this.state.characters.map((character, index) => (
 
@@ -43,8 +48,10 @@ class App extends React.Component {
        image={character.imageUrl}
        favoritesClick={this.handleFavoriteClick}
        character={character}
+       key={index}
 
        />
+       
       ))}
       
       </div>

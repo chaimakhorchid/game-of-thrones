@@ -16,7 +16,7 @@ class Character extends React.Component {
 			            <p>{name}</p>
                         <p>{title}</p>    
                     </div>
-                    <button  className="btn btn-success ms-5" onClick={() => favoritesClick(character)}>ajouter aux favorites</button>
+                    <button  className="btn btn-outline-dark ms-5 mb-2" onClick={() => favoritesClick(character)}>ajouter aux favorites</button>
                 </div>            
 		)
 	}
